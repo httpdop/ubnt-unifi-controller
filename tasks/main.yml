@@ -1,0 +1,39 @@
+---
+
+- name: Update repositories cache and make dist-upgrade
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: dist
+
+- name: Install dependencies
+  ansible.builtin.apt:
+    pkg:
+      - ca-certificates
+      - apt-transport-https
+
+- name: Import tasks for aarch64 (arm64)
+  ansible.builtin.import_tasks: aarch64.yml
+  when: ansible_architecture == "aarch64"
+
+- name: Import tasks for x86_64
+  ansible.builtin.import_tasks: x86_64.yml
+  when: ansible_architecture == "x86_64"
+
+- name: Create Unifi apt list file
+  ansible.builtin.template:
+    src: 100-ubnt-unifi.list.j2
+    dest: /etc/apt/sources.list.d/100-ubnt-unifi.list
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Download Unifi Repo key
+  ansible.builtin.get_url:
+    url: https://dl.ui.com/unifi/unifi-repo.gpg
+    dest: /etc/apt/trusted.gpg.d/unifi-repo.gpg
+    mode: '0644'
+
+- name: Update repositories cache and install unifi
+  ansible.builtin.apt:
+    name: unifi
+    update_cache: true

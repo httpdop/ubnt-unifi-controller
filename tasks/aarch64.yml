@@ -1,0 +1,9 @@
+---
+
+- name: Install libssl 1.0.0 from ports ubuntu
+  ansible.builtin.apt:
+    deb: http://ports.ubuntu.com/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.13_arm64.deb
+
+- name: Install mongodb server 3.6.23
+  ansible.builtin.apt:
+    deb: https://repo.mongodb.org/apt/ubuntu/dists/xenial/mongodb-org/3.6/multiverse/binary-arm64/mongodb-org-server_3.6.23_arm64.deb

@@ -1,0 +1,23 @@
+galaxy_info:
+  role_name: ubnt_unifi_controller
+  author: httpdop
+  description: "Ansible Galaxy role to install ubnt unifi controller on debian (aarch64, x86_64)"
+
+  license: MIT
+
+  min_ansible_version: 7.3.0
+
+  # If this a Container Enabled role, provide the minimum Ansible Container version.
+  # min_ansible_container_version:
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+
+  galaxy_tags:
+    - linux
+    - ubnt
+    - unifi
+    - controller

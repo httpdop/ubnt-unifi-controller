@@ -1,0 +1,6 @@
+
+[unificontrollers:children]
+locationA_unificontrollers
+
+[locationA_unificontrollers]
+debian12.local.all ansible_connection=ssh

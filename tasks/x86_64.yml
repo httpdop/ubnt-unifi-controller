@@ -1,0 +1,42 @@
+---
+
+- name: Installing dependencies for debian 12 (Bookworm)
+  when: ansible_distribution == "Debian" and ansible_distribution_major_version == "12" and ansible_distribution_minor_version <= "1"
+  block:
+
+    - name: Create bullseye sources list file for libssl1
+      ansible.builtin.template:
+        src: 90-bullseye_sources.list.j2
+        dest: /etc/apt/sources.list.d/90-bullseye_sources.list
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update repositories cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Update repositories cache and install libssl1 from bullseye repo
+      ansible.builtin.apt:
+        name: libssl1.1
+        default_release: "bullseye"
+        update_cache: true
+
+    - name: Download Mongodb Server 3.6 repo key
+      ansible.builtin.get_url:
+        url: https://pgp.mongodb.com/server-3.6.pub
+        dest: /etc/apt/trusted.gpg.d/mongodb_server-3.6.gpg
+        mode: '0644'
+
+    - name: Create mongodb apt list file
+      ansible.builtin.template:
+        src: 92-mongodb-org_3.6.list.j2
+        dest: /etc/apt/sources.list.d/92-mongodb-org_3.6.list
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update repositories cache and install mongodb-org-server
+      ansible.builtin.apt:
+        name: mongodb-org-server
+        update_cache: true

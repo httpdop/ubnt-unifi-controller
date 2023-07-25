@@ -1,0 +1,7 @@
+---
+
+- name: Setup ubnt unifi controller
+  hosts: unificontrollers
+  become: true
+  roles:
+    - role: ubnt_unifi_controller
